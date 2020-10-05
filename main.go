@@ -11,12 +11,12 @@ import (
 
 func setupRoutes(app *fiber.App){
 	app.Get("/api/v1/users", user.GetAllUsers)
-	app.Get("/api/v1/user/:id", user.GetUser)
+	app.Get("/api/v1/users/:id", user.GetUser)
 	app.Get("/api/v1/users/under40", user.GetUsersUnderForty)
 	app.Get("/api/v1/users/highpaying", user.GetHighPayingUsers)
 	app.Get("/api/v1/users/brokeunder21", user.GetYoungerCheaperUsers)
 	app.Post("/api/v1/users", user.CreateUser)
-	app.Delete("/api/v1/user/:id", user.DeleteUser)
+	app.Delete("/api/v1/users/:id", user.DeleteUser)
 }
 
 func initalizeDB(){
