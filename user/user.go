@@ -40,7 +40,6 @@ func GetUsersUnderForty(c *fiber.Ctx) error {
 func GetHighPayingUsers(c *fiber.Ctx) error {
 	db := database.DBConn
 	var users []User
-	// db.Where("amountspent > ?", "100").Find(&users)
 	db.Raw("SELECT * FROM users WHERE amount_spent > ?", "100").Scan(&users)
 	return c.JSON(users)
 }
@@ -50,7 +49,6 @@ func GetYoungerCheaperUsers(c *fiber.Ctx) error {
 	var users []User
 	age := "21"
 	amountSpent := "100"
-	// db.Where("amountspent > ?", "100").Find(&users)
 	db.Raw("SELECT * FROM users WHERE amount_spent < ? AND age <= ?", amountSpent, age).Scan(&users)
 	return c.JSON(users)
 }
