@@ -11,7 +11,7 @@ type User struct {
 	gorm.Model
 	Name string `json:"name"`
 	Age int `json:"age`
-	AmountSpent float64 `json:"amountSpent"`
+	AmountSpent float64 `json:"amount_spent"`
 }
  
 func GetAllUsers(c *fiber.Ctx) error{
@@ -27,6 +27,32 @@ func GetUser(c *fiber.Ctx) error {
 	var user User
 	db.Find(&user, id)
 	return c.JSON(user)
+}
+
+func GetUsersUnderForty(c *fiber.Ctx) error {
+	db := database.DBConn
+	var users []User
+	userAge := 40
+	db.Where("age < ?", userAge).Find(&users)
+	return c.JSON(users)
+}
+
+func GetHighPayingUsers(c *fiber.Ctx) error {
+	db := database.DBConn
+	var users []User
+	// db.Where("amountspent > ?", "100").Find(&users)
+	db.Raw("SELECT * FROM users WHERE amount_spent > ?", "100").Scan(&users)
+	return c.JSON(users)
+}
+
+func GetYoungerCheaperUsers(c *fiber.Ctx) error {
+	db := database.DBConn
+	var users []User
+	age := "21"
+	amountSpent := "100"
+	// db.Where("amountspent > ?", "100").Find(&users)
+	db.Raw("SELECT * FROM users WHERE amount_spent < ? AND age <= ?", amountSpent, age).Scan(&users)
+	return c.JSON(users)
 }
 
 func CreateUser(c *fiber.Ctx) error {
